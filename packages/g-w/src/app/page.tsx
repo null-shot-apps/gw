@@ -45,7 +45,7 @@ export default function GasWise() {
       const ethPriceUrl = 'https://api.coinpaprika.com/v1/tickers/eth-ethereum';
       const res = await fetch(ethPriceUrl);
       if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-      const data = await res.json();
+      const data = await res.json() as { quotes: { USD: { price: number } } };
       setEthPrice(data.quotes.USD.price);
     } catch (error) {
       console.error('ETH price fetch failed:', error);
@@ -99,6 +99,7 @@ export default function GasWise() {
     fetchGasData();
     const interval = setInterval(fetchGasData, 30000);
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getBestChain = () => {
@@ -272,6 +273,8 @@ export default function GasWise() {
     </div>
   );
 }
+
+
 
 
 
