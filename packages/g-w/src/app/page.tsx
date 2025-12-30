@@ -42,11 +42,14 @@ export default function GasWise() {
 
   const fetchEthPrice = async () => {
     try {
-      const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
+      const ethPriceUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currency=usd';
+      const res = await fetch(ethPriceUrl);
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
       const data = await res.json();
       setEthPrice(data.ethereum.usd);
     } catch (error) {
-      console.error('Failed to fetch ETH price:', error);
+      console.error('ETH price fetch failed:', error);
+      setEthPrice(0); // fallback so app doesn't break
     }
   };
 
@@ -269,4 +272,5 @@ export default function GasWise() {
     </div>
   );
 }
+
 
